@@ -1,0 +1,49 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"  // Flutter plugin should be applied last
+}
+
+android {
+    namespace = "com.example.task_master_prototype"
+    compileSdk = flutter.compileSdkVersion  // Automatically set by Flutter
+
+    ndkVersion = flutter.ndkVersion  // Automatically set by Flutter
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId = "com.example.task_master_prototype"
+        minSdk = flutter.minSdkVersion
+        targetSdk = flutter.targetSdkVersion
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
+    }
+
+    // Enable core desugaring
+    coreLibraryDesugaringEnabled true  // This is now inside the android block, not buildTypes
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.debug  // Ensure you have a proper signing configuration for release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+flutter {
+    source = "../.."  // Path to your Flutter project
+}
+
+dependencies {
+    // Add desugaring support for Java 8 features
+    implementation 'com.android.tools:desugar_jdk_libs:1.1.5'
+}
